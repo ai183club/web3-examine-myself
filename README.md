@@ -69,6 +69,12 @@ VITE_DAILY_CHECK_IN_ADDRESS=0x...
 
 `SEPOLIA_RPC_URL` 和 `SEPOLIA_PRIVATE_KEY` 只供 Hardhat 使用；不要把私钥写入前端变量、提交到 Git 或公开给他人。
 
+Sepolia 合约地址：
+
+`0xbC6b2365187FF74AA84940d0a78f9065fB82E1a1`
+
+可在 [Sepolia Etherscan](https://sepolia.etherscan.io/address/0xbC6b2365187FF74AA84940d0a78f9065fB82E1a1) 查看。
+
 ## 合约接口
 
 `DailyCheckIn` 提供以下接口：
@@ -80,10 +86,33 @@ VITE_DAILY_CHECK_IN_ADDRESS=0x...
 
 合约代码位于 [`contracts/DailyCheckIn.sol`](contracts/DailyCheckIn.sol)，前端日历使用原生 React 和 `Date` API 实现，不依赖日历插件。
 
+## Sites 部署
+
+前端已适配 Sites 的 Cloudflare Workers 静态站点部署：
+
+- `frontend/vite.config.ts` 将构建产物输出到根目录 `dist/`。
+- `frontend/build/sites-vite-plugin.ts` 负责复制 Sites 元数据并生成 Worker 部署入口。
+- `frontend/worker/index.js` 提供静态资源访问和 SPA 路由回退。
+- `.openai/hosting.json` 保存 Sites 项目标识，不保存私钥或其他敏感信息。
+
+本地构建并检查 Sites 归档：
+
+```bash
+pnpm frontend:build
+/path/to/sites/scripts/package-site.sh . /tmp/daily-reflection-checkin-sites.tar.gz
+```
+
+当前生产站点为私有访问，仅站点所有者可访问：
+
+[打开每日自省签到](https://daily-reflection-checkin.junean66.chatgpt.site)
+
+Sites 部署使用的是前端构建时注入的 `VITE_*` 配置。`SEPOLIA_PRIVATE_KEY` 永远只用于 Hardhat 部署，不能放入 Sites 环境或浏览器代码。
+
 ## 常用命令
 
 ```bash
 pnpm check          # 编译、测试、同步 ABI、构建前端
 pnpm frontend:build # 仅构建前端
 pnpm frontend:dev   # 启动前端开发服务器
+pnpm frontend:preview # 预览根目录 dist/ 构建产物
 ```
