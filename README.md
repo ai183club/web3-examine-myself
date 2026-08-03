@@ -99,8 +99,11 @@ Sepolia 合约地址：
 
 ```bash
 pnpm frontend:build
-/path/to/sites/scripts/package-site.sh . /tmp/daily-reflection-checkin-sites.tar.gz
+test -f dist/server/index.js
+test -f dist/.openai/hosting.json
 ```
+
+Sites 发布流程会读取上述构建产物并生成部署归档。
 
 当前生产站点为私有访问，仅站点所有者可访问：
 
