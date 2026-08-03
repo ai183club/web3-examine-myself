@@ -1,0 +1,11 @@
+/// <reference types="vite/client" />
+
+interface ImportMetaEnv {
+  readonly VITE_WALLETCONNECT_PROJECT_ID?: string;
+  readonly VITE_SEPOLIA_RPC_URL?: string;
+  readonly VITE_DAILY_CHECK_IN_ADDRESS?: string;
+}
+
+interface ImportMeta {
+  readonly env: ImportMetaEnv;
+}
