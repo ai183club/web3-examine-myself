@@ -8,6 +8,6 @@ export default defineConfig({
   plugins: [react(), sites()],
   build: {
     emptyOutDir: true,
-    outDir: "../dist",
+    outDir: "../dist/client",
   },
 });

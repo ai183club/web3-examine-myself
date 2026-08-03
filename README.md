@@ -90,7 +90,7 @@ Sepolia 合约地址：
 
 前端已适配 Sites 的 Cloudflare Workers 静态站点部署：
 
-- `frontend/vite.config.ts` 将构建产物输出到根目录 `dist/`。
+- `frontend/vite.config.ts` 将浏览器静态资源输出到 `dist/client/`，Worker 入口位于 `dist/server/`。
 - `frontend/build/sites-vite-plugin.ts` 负责复制 Sites 元数据并生成 Worker 部署入口。
 - `frontend/worker/index.js` 提供静态资源访问和 SPA 路由回退。
 - `.openai/hosting.json` 保存 Sites 项目标识，不保存私钥或其他敏感信息。
@@ -100,12 +100,13 @@ Sepolia 合约地址：
 ```bash
 pnpm frontend:build
 test -f dist/server/index.js
+test -f dist/client/index.html
 test -f dist/.openai/hosting.json
 ```
 
 Sites 发布流程会读取上述构建产物并生成部署归档。
 
-当前生产站点为私有访问，仅站点所有者可访问：
+当前生产站点已发布：
 
 [打开每日自省签到](https://daily-reflection-checkin.junean66.chatgpt.site)
 
@@ -117,5 +118,5 @@ Sites 部署使用的是前端构建时注入的 `VITE_*` 配置。`SEPOLIA_PRIV
 pnpm check          # 编译、测试、同步 ABI、构建前端
 pnpm frontend:build # 仅构建前端
 pnpm frontend:dev   # 启动前端开发服务器
-pnpm frontend:preview # 预览根目录 dist/ 构建产物
+pnpm frontend:preview # 预览 dist/client/ 构建产物
 ```

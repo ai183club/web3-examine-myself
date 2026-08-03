@@ -32,10 +32,20 @@ export function sites(): Plugin {
       const workerSource = resolve(projectRoot, "frontend", "worker", "index.js");
       const serverDirectory = resolve(outputRoot, "server");
       const metadataDirectory = resolve(outputRoot, ".openai");
+      const legacyClientFiles = [
+        resolve(outputRoot, "index.html"),
+        resolve(outputRoot, "assets"),
+      ];
 
       await rm(serverDirectory, { recursive: true, force: true });
       await mkdir(serverDirectory, { recursive: true });
       await cp(workerSource, resolve(serverDirectory, "index.js"));
+
+      // Remove the previous flat-output layout when rebuilding an existing
+      // workspace. Sites serves client assets from dist/client.
+      await Promise.all(
+        legacyClientFiles.map((path) => rm(path, { recursive: true, force: true })),
+      );
 
       await rm(metadataDirectory, { recursive: true, force: true });
       if (await exists(hostingConfig)) {
