@@ -3,6 +3,7 @@ frontend/node_modules/
 .pnpm-store/
 dist/
 frontend/dist/
+.wrangler/
 artifacts/
 cache/
 coverage/
