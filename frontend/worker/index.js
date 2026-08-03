@@ -11,7 +11,7 @@ const worker = {
       return response;
     }
 
-    return env.ASSETS.fetch(new Request(new URL("/index.html", request.url), request));
+    return Response.redirect(new URL("/index.html", request.url), 302);
   },
 };
 
